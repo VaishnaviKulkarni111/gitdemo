@@ -21,3 +21,7 @@ items[1].style.backgroundColor = 'yellow'
 for(var i=0; i<items.length; i++){
     items[i].style.backgroundColor = '#f4f4f4'
 }
+
+// querry selector 
+var header= document.querySelector('#main-header');
+header.style.borderBottom = 'solid 10px #ccc'
