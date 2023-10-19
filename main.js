@@ -54,3 +54,11 @@ function filterItem(e){
         }
     })
 }
+
+function test(){
+    // retrive data 
+    var newITEM = document.getElementById('item').value
+
+    // store
+    var store = localStorage.setItem("newITEM" , newITEM)
+}
