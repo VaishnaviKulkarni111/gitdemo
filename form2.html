@@ -61,6 +61,12 @@
           listItem.appendChild(deletebtn)
 
           
+          var editbtn = document.createElement('button')
+           editbtn.className= 'btn btn-danger btn-sm float-right edit'
+          // append text node 
+         
+          editbtn.appendChild(document.createTextNode('Edit'))
+          listItem.appendChild(editbtn)
         });
    
     }
