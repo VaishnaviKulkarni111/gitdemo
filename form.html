@@ -4,52 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>JS For Beginners</title>
-    <link rel="stylesheet" href="style.css">
+  
   </head>
   <body>
-    <header>
-      <h1>JS For Beginners</h1>
-    </header>
-
-    <section class="container">
-      <form id="my-form">
-        <h1>Add User</h1>
-        <div class="msg"></div>
-        <div>
+      <form onsubmit="saveToLocalStorage(e)" id="my-form">
+      
           <label for="name">Name:</label>
-          <input type="text" id="name">
-        </div>
-        <div>
+          <input type="text" name="name" required/>
           <label for="email">Email:</label>
-          <input type="text" id="email">
-        </div>
-        <input class="btn" type="submit" value="Submit" onclick="store()">
+          <input type="text" name="email" required/>
+          <label for="no">phone No</label>
+          <input type="tel"   name="phno"  />
+          <button> Submit </button> 
       </form>
 
-      <ul id="users"></ul>
+      <ul id="listOfItems"></ul>
 
-      <!-- <ul class="items">
-        <li class="item">Item 1</li>
-        <li class="item">Item 2</li>
-        <li class="item">Item 3</li>
-      </ul> -->
-    </section>
-    
-
-    <script src="form.js"></script>
   </body>
 </html>
 
-<script type="text/javascript">
-    let myObj = {
-        name : "Don" , email : "don@6gmail.com"
-    }
-    let myObj_serialized = JSON.stringify(myObj)
+<script>
+   function saveToLocalStorage(e){
+    e.preventDefault();
 
-    localStorage.setItem("myObj" , myObj_serialized)
+      const name= e.target.name.value
+      const  email =  e.target.email.value
+      const No =  e.target.phNo.value
+  
+    const obj = { name , email, no  }  
 
-    let myObj_d = JSON.parse(localStorage.getItem("myObj"));
+    localStorage.setItem(obj.email, JSON.stringify(obj));
+    showUserOnScreen(obj)
+   }
 
-    console.log(myObj_d)
+   function showUserOnScreen(){
+    const parentE = document.getElementById('');
+    const childE = document.createElement('li');
+    childE.textContent = obj.name + " - " + obj.email + " - " + obj.phNo
+    parentE.appendChild(childE)
+   }
 </script>

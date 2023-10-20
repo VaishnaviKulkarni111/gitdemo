@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Storage</title>
+</head>
+<body>
+    <input type="text" id="username" placeholder="Enter username">
+    <button onclick="saveUser()">Save User</button>
+
+    <h2>Saved Users:</h2>
+    <ul id="userList"></ul>
+
+</body>
+</html>
+
+<script>// Function to save user details in local storage
+    function saveUser() {
+        var username = document.getElementById("username").value;
+    
+        // Retrieve existing user data from local storage
+        var users = JSON.parse(localStorage.getItem("users")) || [];
+    
+        // Add new user to the array
+        users.push(username);
+    
+        // Save updated user data back to local storage
+        localStorage.setItem("users", JSON.stringify(users));
+    
+        // Clear input field
+        document.getElementById("username").value = "";
+    
+        // Display saved users
+        displayUsers();
+    }
+    
+    // Function to display saved users
+    function displayUsers() {
+        var userList = document.getElementById("userList");
+        var users = JSON.parse(localStorage.getItem("users")) || [];
+    
+        // Clear previous user list
+        userList.innerHTML = "";
+    
+        // Display each user in the list
+        users.forEach(function(user) {
+            var listItem = document.createElement("li");
+            listItem.textContent = user;
+            userList.appendChild(listItem);
+        });
+    }
+    
+    // Call displayUsers function to show existing users when the page loads
+    displayUsers();
+
+
+</script>
