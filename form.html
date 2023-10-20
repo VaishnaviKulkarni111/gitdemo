@@ -10,11 +10,11 @@
       <form onsubmit="saveToLocalStorage(e)" id="my-form">
       
           <label for="name">Name:</label>
-          <input type="text" name="name" required/>
+          <input type="text" name="name" id="name"   required/>
           <label for="email">Email:</label>
-          <input type="text" name="email" required/>
+          <input type="text" name="email"  id="email" required/>
           <label for="no">phone No</label>
-          <input type="tel"   name="phno"  />
+          <input type="tel"   name="phno"  id="no" />
           <button> Submit </button> 
       </form>
 
@@ -25,20 +25,20 @@
 
 <script>
    function saveToLocalStorage(e){
-    e.preventDefault();
+    e.preventDefault()
 
       const name= e.target.name.value
       const  email =  e.target.email.value
-      const No =  e.target.phNo.value
+      const No =  e.target.phno.value
   
     const obj = { name , email, no  }  
-
+    console.log(obj)
     localStorage.setItem(obj.email, JSON.stringify(obj));
     showUserOnScreen(obj)
    }
 
    function showUserOnScreen(){
-    const parentE = document.getElementById('');
+    const parentE = document.getElementById('listOfItems');
     const childE = document.createElement('li');
     childE.textContent = obj.name + " - " + obj.email + " - " + obj.phNo
     parentE.appendChild(childE)

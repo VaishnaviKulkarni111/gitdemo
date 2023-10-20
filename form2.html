@@ -10,9 +10,9 @@
     <button onclick="saveUser()">Save User</button>
      
     <h2>Saved Users:</h2>
-    <ul id="userList" > 
-        <li class="names">Item 1 <button class="btn btn-danger btn-sm float-right delete"> Delete </button></li>
-        <li class="names"> vaish <button class="btn btn-danger btn-sm float-right delete"> Delete </button> </li>
+    <ul id="userList" class="list" > 
+        <ul id="items" class="list-group">
+           
     </ul> 
     
 
@@ -34,14 +34,6 @@
     
         // Clear input field
         document.getElementById("username").value = "";
-    
-
-        var deletebtn = document.createElement('button')
-    deletebtn.className= 'btn btn-danger btn-sm float-right delete'
-    // append text node 
-    deletebtn.appendChild(document.createTextNode('Delete'))
-    ul.appendChild(deletebtn)
-    userList.appendChild(ul)
 
         // Display saved users
         displayUsers();
@@ -60,7 +52,24 @@
             var listItem = document.createElement("li");
             listItem.textContent = user;
             userList.appendChild(listItem);
+
+            var deletebtn = document.createElement('button')
+           deletebtn.className= 'btn btn-danger btn-sm float-right delete'
+          // append text node 
+          deletebtn.addEventListener( "click", handledelete.bind(null, user))
+          deletebtn.appendChild(document.createTextNode('Delete'))
+          listItem.appendChild(deletebtn)
+
+          
         });
+   
+    }
+
+    const handledelete = (user)=>{
+        var users = JSON.parse(localStorage.getItem("users")) || [];
+       const updated_user= users.filter((i)=> i !== user )
+       localStorage.setItem("users", JSON.stringify(updated_user));
+        displayUsers()
     }
     
     // Call displayUsers function to show existing users when the page loads
