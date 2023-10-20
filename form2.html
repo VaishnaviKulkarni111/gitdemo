@@ -8,9 +8,13 @@
 <body>
     <input type="text" id="username" placeholder="Enter username">
     <button onclick="saveUser()">Save User</button>
-
+     
     <h2>Saved Users:</h2>
-    <ul id="userList"></ul>
+    <ul id="userList" > 
+        <li class="names">Item 1 <button class="btn btn-danger btn-sm float-right delete"> Delete </button></li>
+        <li class="names"> vaish <button class="btn btn-danger btn-sm float-right delete"> Delete </button> </li>
+    </ul> 
+    
 
 </body>
 </html>
@@ -31,6 +35,14 @@
         // Clear input field
         document.getElementById("username").value = "";
     
+
+        var deletebtn = document.createElement('button')
+    deletebtn.className= 'btn btn-danger btn-sm float-right delete'
+    // append text node 
+    deletebtn.appendChild(document.createTextNode('Delete'))
+    ul.appendChild(deletebtn)
+    userList.appendChild(ul)
+
         // Display saved users
         displayUsers();
     }
@@ -53,6 +65,11 @@
     
     // Call displayUsers function to show existing users when the page loads
     displayUsers();
+  
+  
 
+
+    // delete event 
+ //   userList.addEventListener('click', removeItem);
 
 </script>
