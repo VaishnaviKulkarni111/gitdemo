@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expence Tracker</title>
+</head>
+<body>
+    <form id="addform"> 
+        <label for="exp"> Choose amount :</label>
+    <input type="number" id="exp"  min="100"> <br>
+    <label for="description">Choose description :</label>
+    <input type="text" id="description" > <br>
+    <label for="category">Choose category :</label>
+    <select name="category" id="category">
+        <option value="Fuel">Fuel</option>
+        <option value="Rent">Rent</option>
+        <option value="EMI">EMI</option>
+        <option value="Fees">Fees</option>
+        <option value="Food"> Food</option>
+      </select> <br><br>
+   
+    <input type="submit" class="btn btn-dark" id="add"  value="Add Expence" >
+     <h3> Saved Expences</h3>
+     <ul id="expList" class="list">
+     </ul>
+    </form>
+</body>
+<script src="pro1.js"></script>
+</html>
