@@ -19,6 +19,7 @@
 </body>
 </html>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
 <script>// Function to save user details in local storage
     function saveUser() {
         var username = document.getElementById("username").value;
@@ -30,13 +31,29 @@
         users.push(username);
     
         // Save updated user data back to local storage
-        localStorage.setItem("users", JSON.stringify(users));
+       // localStorage.setItem("users", JSON.stringify(users));
     
+       //axios.post("https://crudcrud.com/api/1e68e6be0d4449c0a0705dda088011e7/appointments", users)
+       fetch("https://crudcrud.com/api/1e68e6be0d4449c0a0705dda088011e7/appointments",{
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({users:users})
+}) .then(response => {
+       displayUsers(response.data)
+        console.log(response)
+       })
+       .catch(err => {
+        console.log(err)
+       })
+
+
         // Clear input field
         document.getElementById("username").value = "";
 
         // Display saved users
-        displayUsers();
+       // displayUsers();
     }
     
     // Function to display saved users
@@ -71,15 +88,16 @@
    
     }
 
+    
     const handledelete = (user)=>{
         var users = JSON.parse(localStorage.getItem("users")) || [];
        const updated_user= users.filter((i)=> i !== user )
        localStorage.setItem("users", JSON.stringify(updated_user));
-        displayUsers()
-    }
+       // displayUsers()
+    } 
     
     // Call displayUsers function to show existing users when the page loads
-    displayUsers();
+ //   displayUsers();
   
   
 
