@@ -32,22 +32,23 @@
             }
 
             axios
-             .post("https://crudcrud.com/api/d0ae5de02f014a3e99e20a5764ff3ea9/appointments", user)
+             .post("https://crudcrud.com/api/351657d4478e44aab3baa10900391fd9/appointments", user)
              .then((response) => {
                  showUserOnScreen(response.data)
              })
              .catch((err) => {
                  console.log(err)
              }) 
+
+             user.innerHTML= "";
              //localStorage.setItem(myObj.email, JSON.stringify(myObj));
             // showUserOnScreen(myObj);
 
         }
 //  to avoid disappearing ele after refresh
         window.addEventListener("DOMContentLoaded" , () => {
-            axios.get("https://crudcrud.com/api/d0ae5de02f014a3e99e20a5764ff3ea9/appointments")
+            axios.get("https://crudcrud.com/api/351657d4478e44aab3baa10900391fd9/appointments")
             .then( (response) =>{
-                console.log(response)
 
                 for(var i=0; i<response.data.length; i++){
                     showUserOnScreen(response.data[i])
@@ -62,37 +63,32 @@
             const parentEle = document.getElementById('listOfItems');
             const childEle = `<li id='${user._id}'> ${user.name} - ${user.email} - ${user.phoneNumber}
                               <button onclick= deleteUser('${user._id}') > Delete </button>
-                              <button onclick= editUser('${user._id}' , ${user.name} , ${user.email}) > Edit </button> 
+                              <button onclick= editUser('${user.name}','${user.email}','${user.phoneNumber}','${user._id}') > Edit </button> 
                               </li>` 
 
             parentEle.innerHTML = parentEle.innerHTML + childEle                  
-                           // const childEle = document.createElement('li');
             childEle.textContent = user.name + '-' + user.email + '-' + user.phoneNumber;
             
-         /*
-            
-            const editbtn = document.createElement('input');
-            editbtn.type = "button";
-            editbtn.value = "Edit";
-            editbtn.onclick = () => {
-              //  localStorage.removeItem(myObj.email);
-                parentEle.removeChild(childEle);
-              /*  document.getElementById('userNametag').value = myObj.name;
-                document.getElementById('emailIdtag').value = myObj.email;
-                document.getElementById('phoneNumbertag').value = myObj.phoneNumber; 
-            }
-            */
         }
 
         function deleteUser(userId){
-            axios.delete(`https://crudcrud.com/api/d0ae5de02f014a3e99e20a5764ff3ea9/appointments/${userId}`)
+            axios.delete(`https://crudcrud.com/api/351657d4478e44aab3baa10900391fd9/appointments/${userId}`)
             .then((response) =>{
-                console.log(response)
                 removeUserFromScreen(userId)
             })
             .catch((err)=> {
                 console.log(err)
             })
+        }
+
+        function editUser(name,email,phoneNumber,userId){
+        
+         document.getElementById('userNametag').value = name;
+         document.getElementById('emailIdtag').value = email;
+         document.getElementById('phoneNumbertag').value = phoneNumber ;
+
+          deleteUser(userId)
+
         }
 
         function removeUserFromScreen(userId){
