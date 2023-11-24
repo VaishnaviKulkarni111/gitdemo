@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2> Async Await</h2>
+</body>
+</html>
+<script>
+    console.log('Person1: shows ticket');
+    console.log('Person2: shows ticket');
+
+    const preMovie = async ()=> {
+        const promiseWifeGotTickets = new Promise((resolve, reject) =>{
+            setTimeout(() => resolve('ticket', 3000))
+        })
+
+        const getPopcorn = new Promise((resolve, reject) => resolve(`popcorn`))
+        const addButter = new Promise((resolve, reject) => resolve(`butter`))
+        const getColdrinks = new Promise((resolve, reject) => resolve(`coldrinks`))
+
+        let ticket = await promiseWifeGotTickets;
+
+        console.log(`wife: I have the ${ticket}`);
+        console.log('husband : we should go in')
+        console.log('wife : no, i am hungry')
+
+        let popcorn = await getPopcorn;
+        console.log(`husband: I have the ${popcorn}`);
+        console.log('husband : we should go in')
+        console.log('wife : no, I need some butter')
+
+        let butter = await addButter;
+
+        console.log(`husband: I got some  ${butter} on popcorn`);
+        console.log('husband : anything else ?')
+        console.log('wife : lets go now') 
+        console.log('husbnd: thanks for remainder' )
+
+        let coldrinks = await getColdrinks;
+        console.log(`husband: ohh wait, we forgot to bring any drink`);
+        console.log('wife : should we get any? ')
+        console.log('husband : sure, I will get coldrinks') 
+        console.log(`husbnd: see, I got ${coldrinks}`)
+
+
+        return ticket;
+    }
+
+    preMovie().then((m) => console.log(`person3: shows ${m}`))
+
+    console.log('person4: shows ticket')
+    console.log('person5: shows ticket')
+
+    
+</script>
