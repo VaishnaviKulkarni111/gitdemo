@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form id="addform">
+        <label for="candy"> Candy Name</label>
+        <input type="text" id="candy" name="Cdname"> <br>
+        <label for="desc"> Description</label>
+        <input type="text" id="desc" name="Desc"> <br>
+        <label for="price"> Price</label>
+        <input type="number" id="price" name="Price"> <br>
+        <label for="quantity"> Quantity</label>
+        <input type="number" id="quantity" name="Quantity"> <br>
+        <input type="submit" id="btn"  value="Add Item" >
+    </form>
+    <ul id="listOfItems"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+</body>
+</html>
+
+<script>
+    var form = document.getElementById('addform');
+form.addEventListener('submit', saveToCrud)
+    function saveToCrud(e){
+        
+        e.preventDefault();
+        const name= e.target.candy.value ;
+        const description= e.target.desc.value ;
+        const price= e.target.price.value;
+        const quantity= e.target.quantity.value;
+
+        let obj ={
+            name : name,
+            description : description,
+            price : price,
+            quantity : quantity
+        }
+
+        axios
+        .post("https://crudcrud.com/api/46972367de014ccdb6dc2e2927fea024/candy", obj)
+        .then((response) => {
+                 console.log(response)
+                 showItemOnScreen(response)
+             })
+        .catch((err) => {
+                 console.log(err)
+             }) 
+    }
+    
+
+    function showItemOnScreen(obj){
+            const parentEle = document.getElementById('listOfItems');
+            const childEle = `<li
+             id='${obj._id}'> ${obj.name} - ${obj.description} - ${obj.price} - ${obj.quantity}
+             <button  onclick= delete1() id="bt1" > Buy 1 </button>
+             <button  onclick= delete2() id="bt2"> Buy 2 </button>
+             <button  onclick= delete3() id="bt3"> Buy 3 </button>
+
+             </li>` 
+
+            parentEle.innerHTML = parentEle.innerHTML + childEle                  
+            childEle.textContent = obj.name + '-' + obj.description + '-' + obj.price + '-' + obj.quantity;
+            
+        }
+
+//  to avoid disappearing ele after refresh
+window.addEventListener("DOMContentLoaded" , () => {
+            axios.get("https://crudcrud.com/api/46972367de014ccdb6dc2e2927fea024/candy")
+            .then( (response) =>{
+
+                for(var i=0; i<response.data.length; i++){
+                    showItemOnScreen(response.data[i])
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        })        
+
+    function delete1(){
+    
+
+    }
+
+
+</script>
