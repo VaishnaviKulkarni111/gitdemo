@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>  
+        <form id="addform">
+            <label for="price"> Choose Price</label>
+            <input type="number" id="price" name="Price" min="20" required>
+            <label for="dish"> Choose Dish</label>
+            <input type="text" id="dish" name="Dish" required>
+            <label for="table"> Choose a table : </label>
+            <select name="table" id="table" > 
+                <option value="">select</option>
+                <option value="Table1">Table1</option>
+                <option value="Table2">Table2 </option>
+                <option value="Table3">Table3</option>
+              </select>
+            <input type="submit" id="btn"  value="Add to bill" >
+        </form>
+        <h1> Orders -</h1>
+        <ul id="tb1">  <h2> Table 1</h2> </ul>
+        <ul id="tb2">  <h2> Table 2</h2> </ul>
+        <ul id="tb3">  <h2> Table 3</h2> </ul>
+
+        <!-- <ul id="listOfItems"></ul> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+
+</body>
+</html>
+<script>
+    var form = document.getElementById('addform');
+    form.addEventListener('submit', saveToCrud)
+
+
+   async function saveToCrud(e){
+
+        e.preventDefault(); 
+        let price= e.target.price.value ;
+        let dish= e.target.dish.value ;
+        let table= e.target.table.value;
+       
+        if(dish.trim() === '' ||  table.trim().length <2){
+            alert('Please Enter valid details');
+            return
+        }
+        
+
+        var obj ={
+            price : price,
+            dish : dish,
+            table : table,
+
+        }
+     try{
+
+       const response = await axios.post("https://crudcrud.com/api/0df8a921e00a4cb2939782986813ea66/order", obj);
+       showOrderOnScreen(response.data)
+
+         e.target.price.value='';
+         e.target.dish.value='';
+         e.target.table.value='';
+     }catch(err){
+       console.log(err)
+     }
+     }  
+
+
+
+    function showOrderOnScreen(obj){
+    let parentEle; 
+       if(`${obj.table}` === 'Table1'){
+             parentEle= document.getElementById('tb1');
+           
+        } else
+        if(`${obj.table}` === 'Table2'){
+             parentEle= document.getElementById('tb2'); 
+
+        } else
+        if(`${obj.table}` === 'Table3'){
+          parentEle= document.getElementById('tb3'); 
+         
+        }
+
+        const childEle = `<li
+             id='${obj._id}'> ${obj.price} - ${obj.dish} - ${obj.table}
+             <button  onclick= deleteOrder('${obj._id}') > Delete </button>
+             </li>`
+
+
+            parentEle.innerHTML =  parentEle.innerHTML + childEle ;
+            childEle.textContent = obj.price + '-' + obj.dish + '-' + obj.table ;
+
+    }
+
+    async function deleteOrder(orderId){
+try{
+    
+const response = await axios.delete(`https://crudcrud.com/api/0df8a921e00a4cb2939782986813ea66/order/${orderId}`)
+                removeOrderFromScreen(orderId)
+}catch(err){
+   console.log(err)
+}
+        }
+       
+
+    function removeOrderFromScreen(orderId){
+      const li = document.getElementById(orderId);
+      const ul = li.parentElement;
+      ul.removeChild(li);
+    }
+
+
+//  to avoid disappearing ele after refresh
+window.addEventListener("DOMContentLoaded" , async () => {
+  try{
+    const response = await axios.get("https://crudcrud.com/api/0df8a921e00a4cb2939782986813ea66/order");
+    for(var i=0; i<response.data.length; i++){
+        showOrderOnScreen(response.data[i])
+    }
+  }catch(err){
+    console.log(err)
+  }
+        })    
+
+
+</script>

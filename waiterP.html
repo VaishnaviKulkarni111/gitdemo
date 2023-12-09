@@ -20,10 +20,11 @@
             <input type="submit" id="btn"  value="Add to bill" >
         </form>
         <h1> Orders -</h1>
-        <h2 id="tb1"> Table 1</h2>
-        <h2 id="tb2"> Table 2</h2>
-        <h2 id="tb3"> Table 3</h2>
-        <ul id="listOfItems"></ul>
+        <ul id="tb1">  <h2> Table 1</h2> </ul>
+        <ul id="tb2">  <h2> Table 2</h2> </ul>
+        <ul id="tb3">  <h2> Table 3</h2> </ul>
+       
+        <!-- <ul id="listOfItems"></ul> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
 
 </body>
@@ -31,6 +32,7 @@
 <script>
     var form = document.getElementById('addform');
     form.addEventListener('submit', saveToCrud)
+
 
     function saveToCrud(e){
         
@@ -43,10 +45,10 @@
             price : price,
             dish : dish,
             table : table,
-            status: table.value
+        
         }
     axios 
-    .post("https://crudcrud.com/api/418948b476894b349ef7090737ce354a/order", obj)
+    .post("https://crudcrud.com/api/c13431754b904d8ea8ee729e059a61ff/order", obj)
         .then((response) => {
                  console.log(response)
                  showOrderOnScreen(response)
@@ -86,19 +88,25 @@
         } else 
         if(`${obj.table}` === 'Table3'){
              parentEle= document.getElementById('tb3');
-             const childEle = `<li
-             id='${obj._id}'> ${obj.price} - ${obj.dish} - ${obj.table}
-             <button  onclick= deleteOrder('${obj._id}') id="bt1" > Delete </button>
-             </li>` 
+             const li = document.createElement('li');
+             li.id = obj._id;
+             li.innerHTML = obj.price + '-' + obj.dish + '-' + obj.table ;
+             const btn = document.createElement('button')
+             btn.innerHTML = 'Delete'
+             btn.className = 'Deletebtn'
+             li.appendChild(btn)
 
-            parentEle.innerHTML =  parentEle.innerHTML + childEle ;
-            childEle.textContent = obj.price + '-' + obj.dish + '-' + obj.table ;
+            // parentEle.innerHTML =  parentEle.innerHTML + childEle ;
+            // childEle.textContent = obj.price + '-' + obj.dish + '-' + obj.table ;
         } 
         
      
     }
-    function deleteOrder(orderId){
-            axios.delete(`https://crudcrud.com/api/418948b476894b349ef7090737ce354a/order/${orderId}`)
+    function deleteOrder(e){
+        const orderId = e.target ;
+
+        console.log(orderId)
+            axios.delete(`https://crudcrud.com/api/c13431754b904d8ea8ee729e059a61ff/order/${orderId}`)
             .then((response) =>{
                 removeOrderFromScreen(orderId)
             })
@@ -108,19 +116,21 @@
         }
 
     function removeOrderFromScreen(orderId){
-            const parentnode = document.getElementById('tb1')
-         //   const parentnode2 = document.getElementById('tb2')
+         /*   const parentnode = document.getElementById('tb1')
             const childToBeDeleted = document.getElementById(orderId)
             if(childToBeDeleted){
                 parentnode.removeChild(childToBeDeleted)
-               // parentnode2.removeChild(childToBeDeleted)
-            }
+        
+            }  */
+           
+
+
         }
 
     
 //  to avoid disappearing ele after refresh
 window.addEventListener("DOMContentLoaded" , () => {
-            axios.get("https://crudcrud.com/api/418948b476894b349ef7090737ce354a/order")
+            axios.get("https://crudcrud.com/api/c13431754b904d8ea8ee729e059a61ff/order")
             .then( (response) =>{
 
                 for(var i=0; i<response.data.length; i++){
@@ -132,6 +142,7 @@ window.addEventListener("DOMContentLoaded" , () => {
             })
         })        
 
-   
+        let deletebtn = document.getElementsByClassName('Deletebtn')
+    deletebtn.addEventListener('click', deleteOrder)
    
 </script>
